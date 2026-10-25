@@ -1,0 +1,16 @@
+{
+  "name": "obsidian-lan-reader",
+  "version": "1.4.2",
+  "private": true,
+  "scripts": {
+    "build": "esbuild main.js --bundle --platform=node --format=cjs --external:obsidian --outfile=dist/main.js && cp manifest.json dist/manifest.json && esbuild daemon.js --bundle --platform=node --format=cjs --alias:obsidian=./daemon-shim.cjs --outfile=dist/daemon.cjs",
+    "test": "node --test test.cjs daemon.test.cjs"
+  },
+  "dependencies": {
+    "markdown-it": "^14.1.0",
+    "sanitize-html": "^2.18.1"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}

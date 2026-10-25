@@ -1,0 +1,3 @@
+const {render}=require('./core.cjs');
+async function graph(notes,read){const ids=new Set(notes.map(n=>n.path)),edges=new Map();for(const note of notes){const html=render(await read(note),note.path,notes);for(const match of html.matchAll(/href="([^"\s]+)"/g)){try{const u=new URL(match[1].replace(/&amp;/g,'&'),'http://localhost');if(u.origin!=='http://localhost'||u.pathname!=='/')continue;const target=u.searchParams.get('note');if(target===note.path||!ids.has(target))continue;const key=[note.path,target].sort().join('\0');edges.set(key,{source:note.path,target});}catch{}}}return {nodes:notes.map(n=>({id:n.path,title:n.basename||n.title})),edges:[...edges.values()]};}
+module.exports={graph};
